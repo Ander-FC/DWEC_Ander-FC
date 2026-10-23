@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enlaces externos con una clase</title>
+  <style>
+    .externo {
+      color: orange;
+    }
+  </style>
+</head>
+<body>
+  <h1>Enlaces externos con una clase</h1>
+  <p>La clase externo aplica el mismo estilo a todos los enlaces externos.</p>
+  <ul>
+    <li><a href="https://www.wikipedia.org/">Wikipedia (externo)</a></li>
+    <li><a href="https://www.freecodecamp.org/">freeCodeCamp (externo)</a></li>
+    <li><a href="index.html">Índice (interno)</a></li>
+  </ul>
+  <p><a href="index.html">Volver al índice</a></p>
+
+  <script>
+    var enlaces = document.querySelectorAll('a[href*="://"]');
+
+    for (var i = 0; i < enlaces.length; i++) {
+      enlaces[i].classList.add("externo");
+    }
+  </script>
+</body>
+</html>

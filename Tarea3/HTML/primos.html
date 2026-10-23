@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Números primos</title>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Números primos</h1>
+  <p>La tabla incluye el 1 para seguir el ejemplo del enunciado; el 1 no es un número primo.</p>
+  <label for="numero">Introduce un número entero:</label>
+  <input id="numero" type="number" min="1" step="1">
+  <button id="mostrar">Mostrar números</button>
+  <div id="resultado"></div>
+  <p><a href="index.html">Volver al índice</a></p>
+
+  <script>
+    document.getElementById("mostrar").onclick = function () {
+      var numero = Number(document.getElementById("numero").value);
+      var resultado = document.getElementById("resultado");
+
+      if (numero < 1 || numero % 1 !== 0) {
+        resultado.textContent = "Introduce un número entero igual o mayor que 1.";
+        return;
+      }
+
+      var tabla = document.createElement("table");
+      var filaTitulo = document.createElement("tr");
+      var titulo = document.createElement("th");
+      titulo.textContent = "Números";
+      filaTitulo.appendChild(titulo);
+      tabla.appendChild(filaTitulo);
+
+      var filaUno = document.createElement("tr");
+      var celdaUno = document.createElement("td");
+      celdaUno.textContent = "1";
+      filaUno.appendChild(celdaUno);
+      tabla.appendChild(filaUno);
+
+      for (var candidato = 2; candidato <= numero; candidato++) {
+        var esPrimo = true;
+
+        for (var divisor = 2; divisor < candidato; divisor++) {
+          if (candidato % divisor === 0) {
+            esPrimo = false;
+          }
+        }
+
+        if (esPrimo) {
+          var fila = document.createElement("tr");
+          var celda = document.createElement("td");
+          celda.textContent = candidato;
+          fila.appendChild(celda);
+          tabla.appendChild(fila);
+        }
+      }
+
+      resultado.textContent = "";
+      resultado.appendChild(tabla);
+    };
+  </script>
+</body>
+</html>

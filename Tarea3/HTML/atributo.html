@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leer un atributo</title>
+</head>
+<body>
+  <h1>Leer un atributo</h1>
+  <p>El valor de data-widget-name es:</p>
+  <p id="resultado"></p>
+  <div data-widget-name="menu">Ejemplo de elemento con un atributo personalizado</div>
+  <p><a href="index.html">Volver al índice</a></p>
+
+  <script>
+    var elemento = document.querySelector("[data-widget-name]");
+    var valor = elemento.getAttribute("data-widget-name");
+    document.getElementById("resultado").textContent = valor;
+  </script>
+</body>
+</html>

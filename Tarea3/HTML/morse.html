@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor de código Morse</title>
+</head>
+<body>
+  <h1>Conversor de código Morse</h1>
+  <p>Escribe texto o código Morse. Usa un espacio entre letras y dos espacios entre palabras.</p>
+  <p>Se admiten letras, números, la Ñ y signos de puntuación habituales. Las vocales con tilde se convierten en su vocal sin tilde.</p>
+  <button id="convertir">Introducir texto</button>
+  <p id="resultado"></p>
+  <p><a href="index.html">Volver al índice</a></p>
+
+  <script>
+    var codigos = {
+      "A": ".—", "B": "—...", "C": "—.—.", "D": "—..", "E": ".",
+      "F": "..—.", "G": "——.", "H": "....", "I": "..", "J": ".———",
+      "K": "—.—", "L": ".—..", "M": "——", "N": "—.", "Ñ": "——.——",
+      "O": "———", "P": ".——.", "Q": "——.—", "R": ".—.", "S": "...",
+      "T": "—", "U": "..—", "V": "...—", "W": ".——", "X": "—..—",
+      "Y": "—.——", "Z": "——..",
+      "0": "—————", "1": ".————", "2": "..———", "3": "...——",
+      "4": "....—", "5": ".....", "6": "—....", "7": "——...",
+      "8": "———..", "9": "————.",
+      ".": ".—.—.—", ",": "——..——", "?": "..——..", "!": "—.—.——",
+      ":": "———...", ";": "—.—.—.", "'": ".————.", "\"": ".—..—.",
+      "(": "—.——.", ")": "—.——.—", "&": ".—...", "=": "—...—",
+      "+": ".—.—.", "-": "—....—", "_": "..——.—", "/": "—..—.",
+      "@": ".——.—.", "$": "...—..—"
+    };
+
+    function esMorse(texto) {
+      var tieneCodigo = false;
+
+      for (var i = 0; i < texto.length; i++) {
+        var caracter = texto.charAt(i);
+
+        if (caracter === "." || caracter === "—") {
+          tieneCodigo = true;
+        } else if (caracter !== " ") {
+          return false;
+        }
+      }
+
+      return tieneCodigo;
+    }
+
+    function convertirTexto(texto) {
+      var textoMayusculas = texto.toUpperCase();
+      textoMayusculas = textoMayusculas.replace(/Á/g, "A");
+      textoMayusculas = textoMayusculas.replace(/É/g, "E");
+      textoMayusculas = textoMayusculas.replace(/Í/g, "I");
+      textoMayusculas = textoMayusculas.replace(/Ó/g, "O");
+      textoMayusculas = textoMayusculas.replace(/Ú/g, "U");
+      textoMayusculas = textoMayusculas.replace(/Ü/g, "U");
+      var palabras = textoMayusculas.trim().split(" ");
+      var resultado = "";
+
+      for (var i = 0; i < palabras.length; i++) {
+        var letras = palabras[i].split("");
+
+        for (var j = 0; j < letras.length; j++) {
+          if (codigos[letras[j]] === undefined) {
+            return "No se admite el carácter: " + letras[j];
+          }
+
+          if (j > 0) {
+            resultado += " ";
+          }
+          resultado += codigos[letras[j]];
+        }
+
+        if (i < palabras.length - 1) {
+          resultado += "  ";
+        }
+      }
+
+      return resultado;
+    }
+
+    function buscarLetra(codigo) {
+      for (var letra in codigos) {
+        if (codigos[letra] === codigo) {
+          return letra;
+        }
+      }
+
+      return "";
+    }
+
+    function convertirMorse(texto) {
+      var palabras = texto.trim().split("  ");
+      var resultado = "";
+
+      for (var i = 0; i < palabras.length; i++) {
+        var letras = palabras[i].split(" ");
+
+        for (var j = 0; j < letras.length; j++) {
+          var letra = buscarLetra(letras[j]);
+
+          if (letra === "") {
+            return "No se reconoce el código: " + letras[j];
+          }
+
+          resultado += letra;
+        }
+
+        if (i < palabras.length - 1) {
+          resultado += " ";
+        }
+      }
+
+      return resultado;
+    }
+
+    document.getElementById("convertir").onclick = function () {
+      var texto = window.prompt("Escribe el texto o el código Morse:");
+      var resultado = document.getElementById("resultado");
+
+      if (texto === null || texto.trim() === "") {
+        resultado.textContent = "No se ha introducido ningún texto.";
+      } else if (esMorse(texto)) {
+        resultado.textContent = convertirMorse(texto);
+      } else {
+        resultado.textContent = convertirTexto(texto);
+      }
+    };
+  </script>
+</body>
+</html>
