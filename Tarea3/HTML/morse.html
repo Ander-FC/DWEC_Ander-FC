@@ -7,13 +7,17 @@
 </head>
 <body>
   <h1>Conversor de código Morse</h1>
+  <!-- La entrada Morse usa un espacio entre símbolos y dos espacios entre palabras. -->
   <p>Escribe texto o código Morse. Usa un espacio entre letras y dos espacios entre palabras.</p>
   <p>Se admiten letras, números, la Ñ y signos de puntuación habituales. Las vocales con tilde se convierten en su vocal sin tilde.</p>
+  <!-- El botón solicita la entrada mediante prompt y muestra la conversión en el párrafo de resultado. -->
   <button id="convertir">Introducir texto</button>
   <p id="resultado"></p>
+  <!-- Enlace para regresar al menú de ejercicios. -->
   <p><a href="index.html">Volver al índice</a></p>
 
   <script>
+    // Tabla de equivalencias usada tanto para codificar texto como para reconocer Morse.
     var codigos = {
       "A": ".—", "B": "—...", "C": "—.—.", "D": "—..", "E": ".",
       "F": "..—.", "G": "——.", "H": "....", "I": "..", "J": ".———",
@@ -31,6 +35,8 @@
       "@": ".——.—.", "$": "...—..—"
     };
 
+    // Determina si la entrada contiene únicamente puntos, rayas largas y espacios,
+    // y exige al menos un símbolo para considerarla código Morse.
     function esMorse(texto) {
       var tieneCodigo = false;
 
@@ -47,6 +53,8 @@
       return tieneCodigo;
     }
 
+    // Convierte texto natural a Morse: normaliza mayúsculas y vocales acentuadas,
+    // separa las palabras y conserva la convención de espacios entre letras y palabras.
     function convertirTexto(texto) {
       var textoMayusculas = texto.toUpperCase();
       textoMayusculas = textoMayusculas.replace(/Á/g, "A");
@@ -80,6 +88,8 @@
       return resultado;
     }
 
+    // Busca en la tabla el carácter asociado a un código Morse concreto.
+    // Si no existe una equivalencia, devuelve una cadena vacía.
     function buscarLetra(codigo) {
       for (var letra in codigos) {
         if (codigos[letra] === codigo) {
@@ -90,6 +100,8 @@
       return "";
     }
 
+    // Convierte Morse a texto separando palabras por dos espacios y letras por uno.
+    // Informa del primer código que no tenga equivalencia en la tabla.
     function convertirMorse(texto) {
       var palabras = texto.trim().split("  ");
       var resultado = "";
@@ -115,12 +127,15 @@
       return resultado;
     }
 
+    // Al pulsar el botón, solicita la entrada y decide automáticamente qué conversión realizar.
     document.getElementById("convertir").onclick = function () {
       var texto = window.prompt("Escribe el texto o el código Morse:");
       var resultado = document.getElementById("resultado");
 
+      // Gestiona la cancelación o entrada vacía antes de intentar convertir.
       if (texto === null || texto.trim() === "") {
         resultado.textContent = "No se ha introducido ningún texto.";
+      // Una entrada formada por símbolos Morse se decodifica; el resto se codifica como texto.
       } else if (esMorse(texto)) {
         resultado.textContent = convertirMorse(texto);
       } else {

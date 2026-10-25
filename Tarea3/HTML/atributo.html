@@ -8,12 +8,17 @@
 <body>
   <h1>Leer un atributo</h1>
   <p>El valor de data-widget-name es:</p>
+  <!-- Este párrafo sirve como destino para mostrar el valor leído con JavaScript. -->
   <p id="resultado"></p>
+  <!-- Atributo personalizado que el ejercicio selecciona y cuyo valor se muestra arriba. -->
   <div data-widget-name="menu">Ejemplo de elemento con un atributo personalizado</div>
+  <!-- Enlace para regresar al menú de ejercicios. -->
   <p><a href="index.html">Volver al índice</a></p>
 
   <script>
+    // Busca el primer elemento que tenga el atributo data-widget-name.
     var elemento = document.querySelector("[data-widget-name]");
+    // Lee el valor del atributo y lo escribe como texto en el párrafo de resultado.
     var valor = elemento.getAttribute("data-widget-name");
     document.getElementById("resultado").textContent = valor;
   </script>

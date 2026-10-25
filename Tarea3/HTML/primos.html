@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Números primos</title>
   <style>
+    /* Bordes compartidos, celdas unidas y espaciado para hacer legible la tabla generada. */
     table, th, td {
       border: 1px solid black;
       border-collapse: collapse;
@@ -14,23 +15,30 @@
 </head>
 <body>
   <h1>Números primos</h1>
+  <!-- El 1 se incluye en la tabla por el ejemplo del enunciado, aunque no se considera primo. -->
   <p>La tabla incluye el 1 para seguir el ejemplo del enunciado; el 1 no es un número primo.</p>
   <label for="numero">Introduce un número entero:</label>
+  <!-- El usuario indica el límite superior; el botón genera la tabla hasta ese valor. -->
   <input id="numero" type="number" min="1" step="1">
   <button id="mostrar">Mostrar números</button>
+  <!-- Contenedor donde se inserta el mensaje de validación o la tabla construida. -->
   <div id="resultado"></div>
+  <!-- Enlace para regresar al menú de ejercicios. -->
   <p><a href="index.html">Volver al índice</a></p>
 
   <script>
+    // Al pulsar el botón, lee el límite introducido y prepara el contenedor de salida.
     document.getElementById("mostrar").onclick = function () {
       var numero = Number(document.getElementById("numero").value);
       var resultado = document.getElementById("resultado");
 
+      // Rechaza valores menores que 1 o que no sean enteros y detiene el procesamiento.
       if (numero < 1 || numero % 1 !== 0) {
         resultado.textContent = "Introduce un número entero igual o mayor que 1.";
         return;
       }
 
+      // Construye el encabezado de la tabla que contendrá los números del resultado.
       var tabla = document.createElement("table");
       var filaTitulo = document.createElement("tr");
       var titulo = document.createElement("th");
@@ -38,21 +46,25 @@
       filaTitulo.appendChild(titulo);
       tabla.appendChild(filaTitulo);
 
+      // Añade explícitamente el 1 para reproducir el formato indicado en el enunciado.
       var filaUno = document.createElement("tr");
       var celdaUno = document.createElement("td");
       celdaUno.textContent = "1";
       filaUno.appendChild(celdaUno);
       tabla.appendChild(filaUno);
 
+      // Comprueba cada candidato desde el 2 hasta el límite introducido.
       for (var candidato = 2; candidato <= numero; candidato++) {
         var esPrimo = true;
 
+        // Si algún divisor menor que el candidato lo divide exactamente, no es primo.
         for (var divisor = 2; divisor < candidato; divisor++) {
           if (candidato % divisor === 0) {
             esPrimo = false;
           }
         }
 
+        // Los candidatos que no encontraron divisores se incorporan como una fila nueva.
         if (esPrimo) {
           var fila = document.createElement("tr");
           var celda = document.createElement("td");
@@ -62,6 +74,7 @@
         }
       }
 
+      // Sustituye el contenido anterior del contenedor por la tabla recién generada.
       resultado.textContent = "";
       resultado.appendChild(tabla);
     };
